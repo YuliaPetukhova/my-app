@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable, catchError, throwError } from "rxjs";
 import { IProduct } from "../models/product";
-import { delay } from "rxjs";
+import { delay, retry } from "rxjs";
 import { ErrorService } from "./error.service";
 
 @Injectable ({
@@ -17,10 +17,11 @@ export class ProductsService{
     }
 
     getAll(): Observable<IProduct[]> {
-        return this.http.get<IProduct[]>('https://fakestoreapi.com/products1', {
+        return this.http.get<IProduct[]>('https://fakestoreapi.com/products', {
             params: new HttpParams().append('limit',5)
             }).pipe(
-                delay(2000),
+                delay(200),
+                retry(2),
                 catchError(this.errorHandler.bind(this))
             )
     }
