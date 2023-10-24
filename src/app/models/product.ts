@@ -1,7 +1,7 @@
 import { UrlCreationOptions } from "@angular/router"
 
 export interface IProduct{
-    id: number
+    id?: number
     title: string
     price: number
     description: string
